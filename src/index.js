@@ -49,6 +49,12 @@ function handleSearchSubmit(event) {
   searchCity(searchInput.value);
 }
 
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[date.getDay()];
+}
+
 function getForecast(city) {
   apiKey = "070d7bta566282fa433fo33ea3048a1c";
   apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
@@ -56,19 +62,26 @@ function getForecast(city) {
 }
 function displayForecast(response) {
   let forecastElement = document.querySelector("#forecast");
-  let days = ["Tue", "Wed", "Thu", "Fri", "Sat"];
   let forecastHtml = "";
-  days.forEach(function (day) {
-    forecastHtml =
-      forecastHtml +
-      `<div class="row">
+  response.data.daily.forEach(function (day, index) {
+    if (index < 5) {
+      forecastHtml =
+        forecastHtml +
+        `<div class="row">
             <div class="col-2">
                 <div class="weather-forecast-date">
-                ${day}</div>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Circle-icons-weather.svg/768px-Circle-icons-weather.svg.png" alt="cloudy_weather_icon" width="36">
-            <div class="weather-forecast-temperatures"><span class="weather-forecast-temperature-max">18°</span><span>&nbsp;</span><span class="weather-forecast-temperature-min"> 12°</span> </div>
+                ${formatDay(day.time)}</div>
+                <img src="${
+                  day.condition.icon_url
+                }" alt="weather_icon" width="50">
+            <div class="weather-forecast-temperatures"><span class="weather-forecast-temperature-max">${Math.round(
+              day.temperature.maximum
+            )}°</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span class="weather-forecast-temperature-min"> ${Math.round(
+          day.temperature.minimum
+        )}°</span> </div>
             </div>
         </div>`;
+    }
   });
   forecastElement.innerHTML = forecastHtml;
 }
