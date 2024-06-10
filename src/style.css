@@ -8,6 +8,7 @@ a {
 .weather-app {
   background: #f8fcfb;
   max-width: 600px;
+  width: 90%;
   margin: 45px auto;
   box-shadow: 0 30px 50px rgba(65, 50, 100, 0.08);
   border-radius: 16px;
@@ -59,7 +60,7 @@ main {
   display: flex;
 }
 .weather-app-temperature {
-  font-size: 88px;
+  font-size: 68px;
   font-weight: bold;
   line-height: 88px;
 }
